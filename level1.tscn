@@ -9,7 +9,7 @@
 [node name="YSort" type="YSort" parent="."]
 
 [node name="RedPipe" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 1388.99, 266.382 )
+position = Vector2( 1488, 640 )
 
 [node name="Reactor" parent="YSort" instance=ExtResource( 2 )]
 

@@ -14,6 +14,11 @@ config/name="LD_OCT2021"
 run/main_scene="res://level1.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=2560
+window/size/height=1440
+
 [input]
 
 ui_left={

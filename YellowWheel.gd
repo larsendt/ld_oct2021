@@ -18,8 +18,9 @@ func _input(event: InputEvent) -> void:
     if event is InputEventMouseButton and self.highlighted:
         if event.is_action_pressed("left_click"):
             self.rotation_dir = 1
-        else:
+        elif event.is_action_pressed("right_click"):
             self.rotation_dir = -1
+        $RotationTimer.start()
 
 func _process(delta: float) -> void:
     self.rotation = clamp(self.rotation + (rotation_dir * delta * ROTATION_SPEED), MIN_ROTATION, MAX_ROTATION)
