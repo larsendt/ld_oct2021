@@ -1,20 +1,27 @@
 extends Node2D
 
-export(float, 0, 1, 0.1) var DAMAGE_AMOUNT = 1.0
-export(float) var MAX_EXTERNAL_DAMAGE_VALUE = 25
+export(float) var DPS = 30
+export(float) var DAMAGE_FREQUENCY = 0.1
+var dps_multiplier = 1.0
 
-signal update_damage(dmg)
+signal deal_damage(dmg)
 
 func _ready() -> void:
-    $YellowWheel.connect("wheel_change", self, "wheel_change")
+    $YellowWheel.connect("wheel_change", self, "_on_wheel_change")
+    $DamageTimer.connect("timeout", self, "_on_damage_timeout")
+    $DamageTimer.start(DAMAGE_FREQUENCY)
+    damage_change(dps_multiplier)
+    $YellowWheel.set_rotation(1.0 - dps_multiplier)
 
-func wheel_change(amt: float) -> void:
+func _on_wheel_change(amt: float) -> void:
     damage_change(amt)
 
+func _on_damage_timeout() -> void:
+    var dmg = DPS * dps_multiplier * DAMAGE_FREQUENCY
+    if dmg > 0:
+        emit_signal("deal_damage", dmg)
+
 func damage_change(dmg: float) -> void:
-    DAMAGE_AMOUNT = clamp(dmg, 0, 1)
-    get_node("SteamEffect").set_steam_amt(DAMAGE_AMOUNT)
-    get_node("SteamEffect2").set_steam_amt(DAMAGE_AMOUNT)
-    get_node("SteamEffect3").set_steam_amt(DAMAGE_AMOUNT)
-    get_node("SteamEffect4").set_steam_amt(DAMAGE_AMOUNT)
-    emit_signal("update_damage", DAMAGE_AMOUNT * MAX_EXTERNAL_DAMAGE_VALUE)
+    dps_multiplier = 1.0 - dmg
+    for node in $Steams.get_children():
+        node.set_steam_amt(dps_multiplier)
