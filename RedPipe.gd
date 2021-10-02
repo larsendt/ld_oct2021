@@ -2,16 +2,17 @@ extends Node2D
 
 export(float) var DPS = 30
 export(float) var DAMAGE_FREQUENCY = 0.1
+export(float) var RANDOM_DAMAGE_INCREMENT = 0.3
+export(float) var INITIAL_DAMAGE = 0.0
 var dps_multiplier = 1.0
-
-signal deal_damage(dmg)
+var cur_damage = 0.0
 
 func _ready() -> void:
     $YellowWheel.connect("wheel_change", self, "_on_wheel_change")
     $DamageTimer.connect("timeout", self, "_on_damage_timeout")
     $DamageTimer.start(DAMAGE_FREQUENCY)
-    damage_change(dps_multiplier)
-    $YellowWheel.set_rotation(1.0 - dps_multiplier)
+    $DamageHandler.connect("damage_request", self, "_on_damage_request")
+    damage_change(INITIAL_DAMAGE)
 
 func _on_wheel_change(amt: float) -> void:
     damage_change(amt)
@@ -19,9 +20,14 @@ func _on_wheel_change(amt: float) -> void:
 func _on_damage_timeout() -> void:
     var dmg = DPS * dps_multiplier * DAMAGE_FREQUENCY
     if dmg > 0:
-        emit_signal("deal_damage", dmg)
+        $DamageHandler.deal_damage(dmg)
 
 func damage_change(dmg: float) -> void:
-    dps_multiplier = 1.0 - dmg
+    cur_damage = dmg
+    dps_multiplier = dmg
     for node in $Steams.get_children():
         node.set_steam_amt(dps_multiplier)
+
+func _on_damage_request() -> void:
+    damage_change(cur_damage + RANDOM_DAMAGE_INCREMENT)
+    $YellowWheel.set_rotation(cur_damage + RANDOM_DAMAGE_INCREMENT)

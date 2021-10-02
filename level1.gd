@@ -4,6 +4,7 @@ export(float) var MAX_DAMAGE = 10000
 export(float) var CURRENT_DAMAGE = 0
 
 func _ready() -> void:
+    $DamageTimer.connect("timeout", self, "_on_DamageTimer_timeout")
     var red_pipe = get_node("YSort/RedPipe")
     red_pipe.connect("deal_damage", self, "deal_damage")
     set_damage(0)
@@ -14,3 +15,7 @@ func deal_damage(dmg_increment: float) -> void:
 func set_damage(dmg: float) -> void:
     CURRENT_DAMAGE = dmg
     $Interface.set_damage(CURRENT_DAMAGE)
+
+func _on_DamageTimer_timeout() -> void:
+    #get_tree().call_group("DamageHandlers", "request_more_damage")
+    pass
