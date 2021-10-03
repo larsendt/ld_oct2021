@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://sprites/steam.png" type="Texture" id=1]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.0683453, 0.223022, 0.996403 )
+colors = PoolColorArray( 1, 0.421875, 0.421875, 1, 1, 0.862972, 0.23741, 1, 0.320312, 0.320312, 0.320312, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.109091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.781818 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=2]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 2
+emission_box_extents = Vector3( 1, 100, 1 )
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 6 )
+
+[node name="FireEffect" type="Particles2D"]
+material = SubResource( 1 )
+amount = 50
+lifetime = 3.0
+explosiveness = 0.1
+process_material = SubResource( 2 )
+texture = ExtResource( 1 )

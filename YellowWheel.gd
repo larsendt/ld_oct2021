@@ -1,7 +1,8 @@
 extends Node2D
 
-export(float) var ROTATION_PER_CLICK = 0.25
+export(float) var ROTATION_PER_CLICK = 0.1
 export(float) var ROTATION_SPEED = 0.1
+export var verbose = false
 const MIN_ROTATION = 0
 const MAX_ROTATION = 1.0
 
@@ -24,7 +25,7 @@ func _input(event: InputEvent) -> void:
             increment_rotation(-1)
 
 func _process(delta: float) -> void:
-    if abs(cur_rot_frac() - self.desired_rotation_frac) < 0.05:
+    if cur_rot_frac() == self.desired_rotation_frac:
         return
     
     var direction
@@ -34,8 +35,7 @@ func _process(delta: float) -> void:
         direction = 1
 
     var inc = ROTATION_SPEED * delta * direction
-    $RotationContainer.rotation += inc * TAU
-    $SmallProgressBar.set_progress(cur_rot_frac())
+    $RotationContainer.rotation = clamp($RotationContainer.rotation + (inc * TAU), 0, TAU)
     emit_signal("wheel_change", cur_rot_frac())
 
 func increment_rotation(direction: float) -> void:

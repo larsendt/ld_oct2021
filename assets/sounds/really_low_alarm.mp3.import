@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/really_low_alarm.mp3-b4ca72ac6785714887db9b79159986be.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/really_low_alarm.mp3"
+dest_files=[ "res://.import/really_low_alarm.mp3-b4ca72ac6785714887db9b79159986be.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
