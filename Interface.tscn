@@ -19,10 +19,10 @@ __meta__ = {
 
 [node name="VictoryLabel" type="Label" parent="Control"]
 visible = false
-margin_left = 432.0
-margin_top = -976.0
-margin_right = 2170.0
-margin_bottom = -685.0
+margin_left = 48.0
+margin_top = -680.0
+margin_right = 1851.0
+margin_bottom = -389.0
 custom_styles/normal = ExtResource( 2 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0.101961, 1, 0, 1 )
@@ -36,10 +36,10 @@ __meta__ = {
 
 [node name="DefeatLabel" type="Label" parent="Control"]
 visible = false
-margin_left = 336.0
-margin_top = -984.0
-margin_right = 2232.0
-margin_bottom = -693.0
+margin_left = 16.0
+margin_top = -704.0
+margin_right = 1912.0
+margin_bottom = -413.0
 custom_styles/normal = ExtResource( 2 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0.101961, 1, 0, 1 )
@@ -53,9 +53,9 @@ __meta__ = {
 
 [node name="DamageDisplay" type="Label" parent="Control"]
 margin_left = 40.0
-margin_top = -1168.0
+margin_top = -864.0
 margin_right = 680.0
-margin_bottom = -1096.0
+margin_bottom = -792.0
 custom_styles/normal = ExtResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.101961, 1, 0, 1 )
@@ -68,9 +68,9 @@ __meta__ = {
 
 [node name="Instructions" type="Label" parent="Control"]
 margin_left = 32.0
-margin_top = -1352.0
+margin_top = -1056.0
 margin_right = 696.0
-margin_bottom = -1200.0
+margin_bottom = -904.0
 custom_styles/normal = ExtResource( 2 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.101961, 1, 0, 1 )

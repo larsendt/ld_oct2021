@@ -20,8 +20,8 @@ LevelManager="*res://LevelManager.tscn"
 
 [display]
 
-window/size/width=2560
-window/size/height=1440
+window/size/width=1920
+window/size/height=1080
 
 [input]
 

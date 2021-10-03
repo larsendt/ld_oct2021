@@ -21,10 +21,10 @@ zoom = Vector2( 2, 2 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
-margin_left = 480.0
-margin_top = 8.0
-margin_right = 2000.0
-margin_bottom = 288.0
+margin_left = 256.0
+margin_top = 32.0
+margin_right = 1776.0
+margin_bottom = 312.0
 custom_styles/normal = ExtResource( 1 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0.101961, 1, 0, 1 )
@@ -36,10 +36,10 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="CanvasLayer"]
-margin_left = 824.0
-margin_top = 1240.0
-margin_right = 1808.0
-margin_bottom = 1352.0
+margin_left = 504.0
+margin_top = 920.0
+margin_right = 1488.0
+margin_bottom = 1032.0
 custom_styles/normal = ExtResource( 1 )
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.101961, 1, 0, 1 )
