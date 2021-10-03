@@ -12,7 +12,8 @@ func set_enabled(new_enabled: bool) -> void:
     enabled = new_enabled
     if enabled:
         display_variant(self.variant)
-        $AudioStreamPlayer2D.playing = true
+        if !LevelManager.is_splashscreen():
+            $AudioStreamPlayer2D.playing = true
     else:
         for v in self.get_children():
             v.visible = false

@@ -11,8 +11,12 @@ config_version=4
 [application]
 
 config/name="LD_OCT2021"
-run/main_scene="res://level1.tscn"
+run/main_scene="res://IntroScreen.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+LevelManager="*res://LevelManager.tscn"
 
 [display]
 

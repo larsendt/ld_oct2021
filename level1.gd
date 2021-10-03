@@ -4,10 +4,16 @@ export var INITIAL_DAMAGE = 100
 var damage_fixed = false
 
 func _ready() -> void:
+    set_process_input(true)
     $DamageTimer.connect("timeout", self, "_on_DamageTimer_timeout")
     var red_pipe = get_node("YSort/RedPipe")
     red_pipe.connect("deal_damage", self, "deal_damage")
     set_damage(INITIAL_DAMAGE)
+
+func _input(event: InputEvent) -> void:
+    if event is InputEventMouseButton and (damage_fixed or $YSort/Reactor.is_destroyed()):
+        if event.is_action_pressed("left_click"):
+            LevelManager.go_to_splashscreen()
 
 func deal_damage(dmg_increment: float) -> void:
     $YSort/Reactor.do_damage(dmg_increment)

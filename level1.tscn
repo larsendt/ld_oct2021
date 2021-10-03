@@ -9,6 +9,7 @@
 
 [node name="Level1" type="Node2D"]
 script = ExtResource( 4 )
+INITIAL_DAMAGE = 1000
 
 [node name="YSort" type="YSort" parent="."]
 

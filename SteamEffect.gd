@@ -17,7 +17,7 @@ func _ready() -> void:
 func set_steam_amt(steam_amt: float) -> void:
     STEAM_AMOUNT = clamp(steam_amt, 0, 1)
     self.visible = STEAM_AMOUNT > 0
-    if $SteamSound.playing != (STEAM_AMOUNT > 0):
+    if $SteamSound.playing != (STEAM_AMOUNT > 0) and !LevelManager.is_splashscreen():
         $SteamSound.playing = STEAM_AMOUNT > 0
     $SteamSound.pitch_scale = (STEAM_AMOUNT * (MAX_PITCH - MIN_PITCH)) + MIN_PITCH
     $SteamSound.volume_db = (STEAM_AMOUNT * (MAX_VOL - MIN_VOL)) + MIN_VOL

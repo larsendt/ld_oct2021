@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/MainInterfaceStyle.tres" type="StyleBox" id=1]
+[ext_resource path="res://assets/MainDisplayFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Reactor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://IntroScreen.gd" type="Script" id=4]
+[ext_resource path="res://TitleFont.tres" type="DynamicFont" id=5]
+
+[node name="IntroScreen" type="Node2D"]
+position = Vector2( 1224, 576 )
+script = ExtResource( 4 )
+
+[node name="Reactor" parent="." instance=ExtResource( 3 )]
+position = Vector2( -48, 200 )
+damage = 10000.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 2, 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 480.0
+margin_top = 8.0
+margin_right = 2000.0
+margin_bottom = 288.0
+custom_styles/normal = ExtResource( 1 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0.101961, 1, 0, 1 )
+text = "Fix the Reactor!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+margin_left = 824.0
+margin_top = 1240.0
+margin_right = 1808.0
+margin_bottom = 1352.0
+custom_styles/normal = ExtResource( 1 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.101961, 1, 0, 1 )
+text = "Left Click to Begin"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

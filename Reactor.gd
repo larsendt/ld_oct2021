@@ -4,7 +4,7 @@ export(float) var MAX_DAMAGE = 10000
 export var damage = 0.0 setget update_damage
 
 func _ready() -> void:
-    update_damage(0)
+    update_damage(damage)
 
 func is_destroyed():
     return damage_frac() >= 1.0
@@ -31,9 +31,11 @@ func update_damage(new_damage) -> void:
     if enable_crack_after("Cracks/ReactorCrack5", 1.0):
         do_explode = true
 
-    if do_explode and !$ExplosionSound.playing:
+    if do_explode and !$ExplosionSound.playing and !LevelManager.is_splashscreen():
         $ExplosionSound.playing = true
-        get_node("/root/Level1").do_shake()
+        var level1 = get_node("/root/Level1")
+        if level1:
+            level1.do_shake()
 
 
 

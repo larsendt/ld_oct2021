@@ -18,7 +18,7 @@ func _input(event: InputEvent) -> void:
             set_on(false)
 
 func _process(delta: float) -> void:
-    if asdf_on:
+    if asdf_on and !LevelManager.is_splashscreen():
         $DamageHandler.deal_damage(-1 * DAMAGE_PER_SECOND * delta)
 
 func set_on(o: bool) -> void:
