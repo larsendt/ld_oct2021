@@ -1,14 +1,12 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://sprites/reactor1.png" type="Texture" id=1]
 [ext_resource path="res://SteamEffect.tscn" type="PackedScene" id=2]
 [ext_resource path="res://PipeFluidWindow.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Reactor.gd" type="Script" id=4]
-[ext_resource path="res://ReactorCrack1.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ReactorCrack4.tscn" type="PackedScene" id=6]
-[ext_resource path="res://ReactorCrack2.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ReactorCrack5.tscn" type="PackedScene" id=8]
-[ext_resource path="res://ReactorCrack3.tscn" type="PackedScene" id=9]
+[ext_resource path="res://ReactorCrack.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/sounds/explosion.mp3" type="AudioStream" id=6]
+[ext_resource path="res://FixLever.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/sounds/really_low_alarm.mp3" type="AudioStream" id=10]
 [ext_resource path="res://FlashingLight.tscn" type="PackedScene" id=11]
 
@@ -19,19 +17,302 @@ extents = Vector2( 463.996, 976 )
 radius = 144.0
 height = 224.0
 
-[sub_resource type="Gradient" id=4]
-colors = PoolColorArray( 0.605469, 0.963013, 1, 1, 1, 1, 1, 0 )
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 4 )
+uniform float fluid_heat;
 
-[sub_resource type="Curve" id=8]
-_data = [ Vector2( 0, 0.327273 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+void fragment() {
+    vec4 in_col = texture(TEXTURE, UV);
+    vec4 cold_color = vec4(0.1, 0.3, 0.5, 1.0);
+    vec4 hot_color = vec4(0.3, 0.9, 1.0, 1.0);
+    //in_col.a = 1.0;
+    if (length(in_col) > 0.25) {
+        COLOR = in_col * mix(cold_color, hot_color, fluid_heat);
+    } else {
+        COLOR = in_col;    
+    }
+}
+"
 
-[sub_resource type="CurveTexture" id=9]
-curve = SubResource( 8 )
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = SubResource( 3 )
+shader_param/fluid_heat = 1.0
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.0683453, 0.223022, 0.996403 )
+colors = PoolColorArray( 1, 0.421875, 0.421875, 1, 1, 0.862972, 0.23741, 1, 0.320312, 0.320312, 0.320312, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 0.109091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.781818 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
 
 [sub_resource type="ParticlesMaterial" id=10]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( 1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( 1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=14]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( 0, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=15]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=16]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=17]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=18]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=19]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( 1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=20]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( 0, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=21]
+resource_local_to_scene = true
+lifetime_randomness = 0.28
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( -1, 0.5, 0 )
+spread = 10.0
+gravity = Vector3( 0, -150, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.15
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 39.92
+scale = 50.0
+scale_random = 0.43
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
+
+[sub_resource type="Gradient" id=22]
+colors = PoolColorArray( 0.605469, 0.963013, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=23]
+gradient = SubResource( 22 )
+
+[sub_resource type="Curve" id=24]
+_data = [ Vector2( 0, 0.327273 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=25]
+curve = SubResource( 24 )
+
+[sub_resource type="ParticlesMaterial" id=26]
 resource_local_to_scene = true
 flag_disable_z = true
 direction = Vector3( 0, -1, 0 )
@@ -42,8 +323,8 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = -500.0
 scale = 10.0
-scale_curve = SubResource( 9 )
-color_ramp = SubResource( 3 )
+scale_curve = SubResource( 25 )
+color_ramp = SubResource( 23 )
 anim_speed = 3.0
 
 [node name="Reactor" type="StaticBody2D"]
@@ -65,53 +346,224 @@ position = Vector2( -512, 448 )
 shape = SubResource( 2 )
 
 [node name="PipeFluidWindow" parent="." instance=ExtResource( 3 )]
+material = SubResource( 4 )
 position = Vector2( -512, 472 )
 rotation = -3.14159
-frame = 2
+frame = 3
 
 [node name="Cracks" type="Node2D" parent="."]
 
-[node name="ReactorCrack1" parent="Cracks" instance=ExtResource( 5 )]
-position = Vector2( -304, -264 )
+[node name="ReactorCrack" parent="Cracks" instance=ExtResource( 5 )]
+position = Vector2( -478.962, -354.536 )
 
-[node name="ReactorCrack2" parent="Cracks" instance=ExtResource( 7 )]
-position = Vector2( 320, -1168 )
+[node name="ReactorCrack2" parent="Cracks" instance=ExtResource( 5 )]
+position = Vector2( 414.821, -637.378 )
+variant = 1
 
-[node name="ReactorCrack3" parent="Cracks" instance=ExtResource( 9 )]
-position = Vector2( 440, -248 )
+[node name="Variant1" parent="Cracks/ReactorCrack2" index="0"]
+visible = false
 
-[node name="ReactorCrack4" parent="Cracks" instance=ExtResource( 6 )]
-position = Vector2( 0, -688 )
+[node name="FireEffect" parent="Cracks/ReactorCrack2/Variant1" index="1"]
+process_material = SubResource( 9 )
 
-[node name="ReactorCrack5" parent="Cracks" instance=ExtResource( 8 )]
-position = Vector2( -224, -1088 )
+[node name="FireEffect3" parent="Cracks/ReactorCrack2/Variant1" index="2"]
+process_material = SubResource( 10 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack2/Variant1" index="3"]
+process_material = SubResource( 11 )
+
+[node name="Variant2" parent="Cracks/ReactorCrack2" index="1"]
+visible = true
+
+[node name="FireEffect" parent="Cracks/ReactorCrack2/Variant2" index="1"]
+process_material = SubResource( 12 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack2/Variant3" index="1"]
+process_material = SubResource( 11 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack2/Variant3" index="2"]
+process_material = SubResource( 11 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack2/Variant3" index="3"]
+process_material = SubResource( 11 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack2/Variant4" index="1"]
+process_material = SubResource( 13 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack2/Variant4" index="2"]
+process_material = SubResource( 14 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack2/Variant4" index="3"]
+process_material = SubResource( 15 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack2/Variant5" index="1"]
+process_material = SubResource( 11 )
+
+[node name="ReactorCrack3" parent="Cracks" instance=ExtResource( 5 )]
+position = Vector2( -82.9821, -674.148 )
+variant = 2
+
+[node name="Variant1" parent="Cracks/ReactorCrack3" index="0"]
+visible = false
+
+[node name="FireEffect" parent="Cracks/ReactorCrack3/Variant1" index="1"]
+process_material = SubResource( 16 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack3/Variant1" index="2"]
+process_material = SubResource( 17 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack3/Variant1" index="3"]
+process_material = SubResource( 18 )
+
+[node name="Variant2" parent="Cracks/ReactorCrack3" index="1"]
+position = Vector2( -834.386, -709.935 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack3/Variant2" index="1"]
+process_material = SubResource( 18 )
+
+[node name="Variant3" parent="Cracks/ReactorCrack3" index="2"]
+visible = true
+
+[node name="FireEffect" parent="Cracks/ReactorCrack3/Variant3" index="1"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack3/Variant3" index="2"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack3/Variant3" index="3"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack3/Variant4" index="1"]
+process_material = SubResource( 19 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack3/Variant4" index="2"]
+process_material = SubResource( 20 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack3/Variant4" index="3"]
+process_material = SubResource( 21 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack3/Variant5" index="1"]
+process_material = SubResource( 18 )
+
+[node name="ReactorCrack4" parent="Cracks" instance=ExtResource( 5 )]
+position = Vector2( 199.861, -94.3204 )
+variant = 3
+
+[node name="Variant1" parent="Cracks/ReactorCrack4" index="0"]
+visible = false
+
+[node name="FireEffect" parent="Cracks/ReactorCrack4/Variant1" index="1"]
+process_material = SubResource( 16 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack4/Variant1" index="2"]
+process_material = SubResource( 17 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack4/Variant1" index="3"]
+process_material = SubResource( 18 )
+
+[node name="Variant2" parent="Cracks/ReactorCrack4" index="1"]
+position = Vector2( -834.386, -709.935 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack4/Variant2" index="1"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack4/Variant3" index="1"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack4/Variant3" index="2"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack4/Variant3" index="3"]
+process_material = SubResource( 18 )
+
+[node name="Variant4" parent="Cracks/ReactorCrack4" index="3"]
+visible = true
+
+[node name="FireEffect" parent="Cracks/ReactorCrack4/Variant4" index="1"]
+process_material = SubResource( 19 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack4/Variant4" index="2"]
+process_material = SubResource( 20 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack4/Variant4" index="3"]
+process_material = SubResource( 21 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack4/Variant5" index="1"]
+process_material = SubResource( 18 )
+
+[node name="ReactorCrack5" parent="Cracks" instance=ExtResource( 5 )]
+position = Vector2( -269.658, -1030.53 )
+variant = 4
+
+[node name="Variant1" parent="Cracks/ReactorCrack5" index="0"]
+visible = false
+
+[node name="FireEffect" parent="Cracks/ReactorCrack5/Variant1" index="1"]
+process_material = SubResource( 16 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack5/Variant1" index="2"]
+process_material = SubResource( 17 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack5/Variant1" index="3"]
+process_material = SubResource( 18 )
+
+[node name="Variant2" parent="Cracks/ReactorCrack5" index="1"]
+position = Vector2( -834.386, -709.935 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack5/Variant2" index="1"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack5/Variant3" index="1"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack5/Variant3" index="2"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack5/Variant3" index="3"]
+process_material = SubResource( 18 )
+
+[node name="FireEffect" parent="Cracks/ReactorCrack5/Variant4" index="1"]
+process_material = SubResource( 19 )
+
+[node name="FireEffect2" parent="Cracks/ReactorCrack5/Variant4" index="2"]
+process_material = SubResource( 20 )
+
+[node name="FireEffect3" parent="Cracks/ReactorCrack5/Variant4" index="3"]
+process_material = SubResource( 21 )
+
+[node name="Variant5" parent="Cracks/ReactorCrack5" index="4"]
+visible = true
+
+[node name="FireEffect" parent="Cracks/ReactorCrack5/Variant5" index="1"]
+process_material = SubResource( 18 )
 
 [node name="Steams" type="Node2D" parent="."]
 
 [node name="SteamEffect" parent="Steams" instance=ExtResource( 2 )]
 position = Vector2( 104, 344 )
 rotation = 3.14159
-process_material = SubResource( 10 )
+process_material = SubResource( 26 )
+verbose = true
 
 [node name="SteamEffect2" parent="Steams" instance=ExtResource( 2 )]
 position = Vector2( -80, 256 )
 rotation = 3.14159
-process_material = SubResource( 10 )
+process_material = SubResource( 26 )
 
 [node name="SteamEffect3" parent="Steams" instance=ExtResource( 2 )]
 position = Vector2( 64, 256 )
 rotation = 3.14159
-process_material = SubResource( 10 )
+process_material = SubResource( 26 )
 
 [node name="SteamEffect4" parent="Steams" instance=ExtResource( 2 )]
 position = Vector2( -32, 352 )
 rotation = 3.14159
-process_material = SubResource( 10 )
+process_material = SubResource( 26 )
 
 [node name="SteamEffect5" parent="Steams" instance=ExtResource( 2 )]
 position = Vector2( 160, 240 )
 rotation = 3.14159
-process_material = SubResource( 10 )
+process_material = SubResource( 26 )
 
 [node name="AlarmSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 10 )
@@ -124,12 +576,20 @@ position = Vector2( -848, 16 )
 
 [node name="FlashingLight4" parent="Lights" instance=ExtResource( 11 )]
 position = Vector2( -816, -640 )
-frame = 1
 
 [node name="FlashingLight2" parent="Lights" instance=ExtResource( 11 )]
 position = Vector2( 928, -16 )
-frame = 1
 
 [node name="FlashingLight3" parent="Lights" instance=ExtResource( 11 )]
 position = Vector2( 928, -656 )
-frame = 1
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="FixLever" parent="." instance=ExtResource( 7 )]
+position = Vector2( 935.106, 300.012 )
+
+[editable path="Cracks/ReactorCrack2"]
+[editable path="Cracks/ReactorCrack3"]
+[editable path="Cracks/ReactorCrack4"]
+[editable path="Cracks/ReactorCrack5"]

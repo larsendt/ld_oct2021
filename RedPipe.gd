@@ -1,14 +1,15 @@
 extends Node2D
 
-export(float) var DPS = 30
+export(float) var DPS = 300
 export(float) var DAMAGE_FREQUENCY = 0.1
-export(float) var RANDOM_DAMAGE_INCREMENT = 0.3
+export(float) var RANDOM_DAMAGE_INCREMENT = 0.1
 export(float) var INITIAL_DAMAGE = 0.0
 export var verbose = false
 var dps_multiplier = 1.0
 var cur_damage = 0.0
 
 func _ready() -> void:
+    randomize()
     $YellowWheel.connect("wheel_change", self, "_on_wheel_change")
     $DamageTimer.connect("timeout", self, "_on_damage_timeout")
     $DamageTimer.start(DAMAGE_FREQUENCY)
@@ -34,5 +35,6 @@ func damage_change(dmg: float) -> void:
     $PipeFluidWindow.set_fluid_heat(dmg)
 
 func _on_damage_request() -> void:
-    damage_change(cur_damage + RANDOM_DAMAGE_INCREMENT)
-    $YellowWheel.set_rotation(cur_damage + RANDOM_DAMAGE_INCREMENT)
+    if randf() < 0.2:
+        damage_change(cur_damage + RANDOM_DAMAGE_INCREMENT)
+        $YellowWheel.set_rotation(cur_damage + RANDOM_DAMAGE_INCREMENT)

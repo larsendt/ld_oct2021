@@ -28,5 +28,9 @@ texture = ExtResource( 3 )
 [node name="yellow_wheel" type="Sprite" parent="RotationContainer"]
 texture = ExtResource( 1 )
 
+[node name="HighlightBlinkTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]

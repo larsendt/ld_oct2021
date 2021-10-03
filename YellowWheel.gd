@@ -3,11 +3,12 @@ extends Node2D
 export(float) var ROTATION_PER_CLICK = 0.1
 export(float) var ROTATION_SPEED = 0.1
 export var verbose = false
+export var highlighted = false setget set_highlighted
 const MIN_ROTATION = 0
 const MAX_ROTATION = 1.0
 
 signal wheel_change(amt)
-var highlighted: bool
+var hovered: bool
 var desired_rotation_frac = 0.0
 
 func _ready():
@@ -16,9 +17,10 @@ func _ready():
     $RotationTimer.connect("timeout", self, "_on_RotationTimer_timeout")
     $Area2D.connect("mouse_entered", self, "_on_mouse_entered")
     $Area2D.connect("mouse_exited", self, "_on_mouse_exited")
+    $HighlightBlinkTimer.connect("timeout", self, "_on_blink_timeout")
 
 func _input(event: InputEvent) -> void:
-    if event is InputEventMouseButton and self.highlighted:
+    if event is InputEventMouseButton and self.hovered:
         if event.is_action_pressed("left_click"):
             increment_rotation(1)
         elif event.is_action_pressed("right_click"):
@@ -49,9 +51,19 @@ func cur_rot_frac() -> float:
     return $RotationContainer.rotation / TAU
 
 func _on_mouse_entered():
-    get_node("RotationContainer/wheel_highlight").visible = true
+    self.hovered = true
     self.highlighted = true
 
 func _on_mouse_exited():
-    get_node("RotationContainer/wheel_highlight").visible = false
+    self.hovered = false
     self.highlighted = false
+
+func _on_blink_timeout():
+    if self.hovered: 
+        return
+    
+    self.highlighted = !self.highlighted
+
+func set_highlighted(new_hl: bool) -> void:
+    highlighted = new_hl
+    get_node("RotationContainer/wheel_highlight").visible = highlighted

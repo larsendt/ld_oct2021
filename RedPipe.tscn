@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://RedPipeTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://YellowWheel.tscn" type="PackedScene" id=2]
@@ -8,19 +8,19 @@
 [ext_resource path="res://PipeFluidWindow.tscn" type="PackedScene" id=6]
 [ext_resource path="res://DamageHandler.tscn" type="PackedScene" id=7]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.605469, 0.963013, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 4 )
+gradient = SubResource( 2 )
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=4]
 _data = [ Vector2( 0, 0.327273 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=9]
-curve = SubResource( 8 )
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
 
-[sub_resource type="ParticlesMaterial" id=10]
+[sub_resource type="ParticlesMaterial" id=6]
 resource_local_to_scene = true
 flag_disable_z = true
 direction = Vector3( 0, -1, 0 )
@@ -31,9 +31,32 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = -500.0
 scale = 10.0
-scale_curve = SubResource( 9 )
+scale_curve = SubResource( 5 )
 color_ramp = SubResource( 3 )
 anim_speed = 3.0
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float fluid_heat;
+
+void fragment() {
+    vec4 in_col = texture(TEXTURE, UV);
+    vec4 cold_color = vec4(0.1, 0.3, 0.5, 1.0);
+    vec4 hot_color = vec4(0.3, 0.9, 1.0, 1.0);
+    //in_col.a = 1.0;
+    if (length(in_col) > 0.25) {
+        COLOR = in_col * mix(cold_color, hot_color, fluid_heat);
+    } else {
+        COLOR = in_col;    
+    }
+}
+"
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/fluid_heat = 1.0
 
 [node name="RedPipe" type="Node2D"]
 script = ExtResource( 5 )
@@ -53,27 +76,28 @@ z_index = 1
 [node name="SteamEffect" parent="Steams" instance=ExtResource( 3 )]
 position = Vector2( 8, -184 )
 rotation = -3.14159
-process_material = SubResource( 10 )
+process_material = SubResource( 6 )
 
 [node name="SteamEffect2" parent="Steams" instance=ExtResource( 3 )]
 position = Vector2( 8, -256 )
 rotation = -3.14159
-process_material = SubResource( 10 )
+process_material = SubResource( 6 )
 
 [node name="SteamEffect3" parent="Steams" instance=ExtResource( 3 )]
 position = Vector2( 8, -304 )
-process_material = SubResource( 10 )
+process_material = SubResource( 6 )
 
 [node name="SteamEffect4" parent="Steams" instance=ExtResource( 3 )]
 position = Vector2( 8, -368 )
-process_material = SubResource( 10 )
+process_material = SubResource( 6 )
 
 [node name="AlarmLight" parent="." instance=ExtResource( 4 )]
 position = Vector2( -248, -144 )
 
 [node name="PipeFluidWindow" parent="." instance=ExtResource( 6 )]
+material = SubResource( 7 )
 position = Vector2( 264, -128 )
-frame = 0
+frame = 3
 
 [node name="DamageTimer" type="Timer" parent="."]
 autostart = true

@@ -22,6 +22,7 @@ void fragment() {
 "
 
 [sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/fluid_heat = 1.0
 
@@ -56,6 +57,6 @@ animations = [ {
 [node name="PipeFluidWindow" type="AnimatedSprite"]
 material = SubResource( 2 )
 frames = SubResource( 7 )
-frame = 3
+frame = 1
 playing = true
 script = ExtResource( 2 )

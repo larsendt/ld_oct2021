@@ -1,5 +1,6 @@
 extends Particles2D
 
+export var verbose = false;
 export(float, 0.0, 1.0, .1) var STEAM_AMOUNT = 1.0
 export(float) var MAX_SCALE = 8.0
 const MIN_VOL = -30
